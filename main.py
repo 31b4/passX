@@ -1,4 +1,4 @@
-from Interface import TerminalInterface
+from interface import TerminalInterface
 
 if __name__ == "__main__":
     terminal = TerminalInterface()
