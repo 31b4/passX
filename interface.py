@@ -33,17 +33,14 @@ class TerminalInterface:
     def addPass(self):
         username = input("Enter username: ")
         password = input("Enter password: ")
-        ALL.append((username, password))
+        ALL[username] = password
         clear_console()
 
 
     def getPass(self):
         find_username = input("Enter username: ")
-        for username, password in ALL:
-            if username == find_username:
-                copy_to_clipboard(password)
-                print("Password copied to clipboard.")
-                break
+        copy_to_clipboard(ALL[find_username])
+        print("Password copied to clipboard.")
 
     def removePass(self):
         print("...")
