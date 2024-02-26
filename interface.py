@@ -1,3 +1,22 @@
+from confidentials import ALL
+import os
+import pyperclip
+
+def copy_to_clipboard(text):
+    pyperclip.copy(text)
+
+# Example usage:
+
+
+def clear_console():
+    # For POSIX systems (Linux, Mac)
+    if os.name == 'posix':
+        os.system('clear')
+    # For Windows
+    elif os.name == 'nt':
+        os.system('cls')
+
+clear_console()
 class TerminalInterface:
     def __init__(self):
         pass
@@ -12,12 +31,19 @@ class TerminalInterface:
         print("——————————————————————————————\n")
 
     def addPass(self):
-        print("...")
+        username = input("Enter username: ")
+        password = input("Enter password: ")
+        ALL.append((username, password))
+        clear_console()
 
 
     def getPass(self):
-        print("...")
-
+        find_username = input("Enter username: ")
+        for username, password in ALL:
+            if username == find_username:
+                copy_to_clipboard(password)
+                print("Password copied to clipboard.")
+                break
 
     def removePass(self):
         print("...")
