@@ -55,3 +55,15 @@ class DatabaseManager():
         query = 'INSERT INTO passes(site, username, password) VALUES(?,?,?)'
         self.execute_query(query, (site, username, password))
         self.commit()
+
+    def delete_account(self, site, username):
+        result = self.get_password(site, username)
+
+        if result:
+            print("Deleted {} acc at {}".format(username, site))
+            self.execute_query('DELETE FROM passes WHERE site=? AND username=?', (site, username))
+            self.commit()
+            return True
+        else:
+            print("Not found {} -> {}".format(site, username))
+            return False
