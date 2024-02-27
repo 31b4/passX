@@ -1,4 +1,5 @@
 from confidentials import ALL
+from DatabaseManager import DatabaseManager
 import os
 import pyperclip
 
@@ -7,16 +8,8 @@ def copy_to_clipboard(text):
 
 # Example usage:
 
+clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
 
-def clear_console():
-    # For POSIX systems (Linux, Mac)
-    if os.name == 'posix':
-        os.system('clear')
-    # For Windows
-    elif os.name == 'nt':
-        os.system('cls')
-
-clear_console()
 class TerminalInterface:
     def __init__(self):
         pass
@@ -24,28 +17,39 @@ class TerminalInterface:
     def display_options(self):
         print("———————————————————————————————")
         print("—————————————PassX—————————————")
-        print("1:\t\tAdd new password")
-        print("2:\t\tGet password")
-        print("3:\t\tRemove Password")
-        print("q:\t\tQuit")
+        print("1:\tAdd new password")
+        print("2:\tGet password")
+        print("3:\tRemove Password")
+        print("q:\tQuit")
         print("——————————————————————————————\n")
 
     def addPass(self):
         username = input("Enter username: ")
         password = input("Enter password: ")
         ALL[username] = password
-        clear_console()
+        DatabaseManager('passwords.db').insert_password('site', username, password)
+        clear()
 
 
     def getPass(self):
+        clear()
         find_username = input("Enter username: ")
-        copy_to_clipboard(ALL[find_username])
+        password = DatabaseManager('passwords.db').get_password('site', find_username)
+        if password is None:
+            print("No password found for this username.")
+            return
+
+        print("Password:", password)
+        copy_to_clipboard(str(password))
         print("Password copied to clipboard.")
 
     def removePass(self):
         print("...")
 
     def run(self):
+        DatabaseManager('passwords.db').create_table()
+        clear()
+
         while True:
             self.display_options()
             choice = input("What you want: ")
