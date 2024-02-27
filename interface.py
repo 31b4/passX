@@ -21,7 +21,7 @@ class TerminalInterface:
         print("2:\tGet password")
         print("3:\tRemove Password")
         print("q:\tQuit")
-        print("——————————————————————————————\n")
+        print("———————————————————————————————\n")
 
     def addPass(self):
         username = input("Enter username: ")
@@ -44,7 +44,10 @@ class TerminalInterface:
         print("Password copied to clipboard.")
 
     def removePass(self):
-        print("...")
+        clear()
+        username = input("Enter username: ")
+        DatabaseManager('passwords.db').delete_account('site', username)
+
 
     def run(self):
         DatabaseManager('passwords.db').create_table()
