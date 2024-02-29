@@ -26,7 +26,6 @@ class TerminalInterface:
         site = input("Enter site: ")
         username = input("Enter username: ")
         password = input("Enter password: ")
-        ALL[username] = password
         DatabaseManager('passwords.db').insert_password(site, username, password)
         clear()
 
