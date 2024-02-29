@@ -1,4 +1,3 @@
-from confidentials import ALL
 from DatabaseManager import DatabaseManager
 import os
 import pyperclip
