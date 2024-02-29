@@ -24,17 +24,19 @@ class TerminalInterface:
         print("———————————————————————————————\n")
 
     def addPass(self):
+        site = input("Enter site: ")
         username = input("Enter username: ")
         password = input("Enter password: ")
         ALL[username] = password
-        DatabaseManager('passwords.db').insert_password('site', username, password)
+        DatabaseManager('passwords.db').insert_password(site, username, password)
         clear()
 
 
     def getPass(self):
         clear()
-        find_username = input("Enter username: ")
-        password = DatabaseManager('passwords.db').get_password('site', find_username)
+        username = input("Enter username: ")
+        site = input("Enter site: ") # if its empty, it will return all the password it finds
+        password = DatabaseManager('passwords.db').get_password(site, username)
         if password is None:
             print("No password found for this username.")
             return
@@ -46,7 +48,8 @@ class TerminalInterface:
     def removePass(self):
         clear()
         username = input("Enter username: ")
-        DatabaseManager('passwords.db').delete_account('site', username)
+        site = input("Enter site: ")
+        DatabaseManager('passwords.db').delete_account(site, username)
 
 
     def run(self):
