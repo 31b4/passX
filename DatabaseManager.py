@@ -21,8 +21,6 @@ class DatabaseManager():
         return self.cursor
 
 
-
-
     def fetchall(self):
         return self.cursor.fetchall()
 
@@ -45,7 +43,7 @@ class DatabaseManager():
 
     def get_password(self, site, username):
         query = 'SELECT password FROM passes WHERE site=? AND username=?'
-        result = self.execute_query(query, (site, username))
+        result = self.execute_query(query, (memoryview(site), memoryview(username)))
         if result:
             return result[0][0]
         else:

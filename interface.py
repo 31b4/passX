@@ -1,6 +1,7 @@
 from DatabaseManager import DatabaseManager
 import os
 import pyperclip
+from cryption import encrypt, decrypt
 
 def copy_to_clipboard(text):
     pyperclip.copy(text)
@@ -26,18 +27,29 @@ class TerminalInterface:
         site = input("Enter site: ")
         username = input("Enter username: ")
         password = input("Enter password: ")
-        DatabaseManager('passwords.db').insert_password(site, username, password)
-        clear()
 
+        encrypted_site = encrypt(site)
+        encrypted_username = encrypt(username)
+        encrypted_password = encrypt(password)
+
+        DatabaseManager('passwords.db').insert_password(encrypted_site, encrypted_username, encrypted_password)
+        clear()
 
     def getPass(self):
         clear()
+        site = input("Enter site: ")
         username = input("Enter username: ")
-        site = input("Enter site: ") # if its empty, it will return all the password it finds
-        password = DatabaseManager('passwords.db').get_password(site, username)
-        if password is None:
-            print("No password found for this username.")
+
+        encrypted_site = encrypt(site)
+        encrypted_username = encrypt(username)
+
+        encrypted_password = DatabaseManager('passwords.db').get_password(encrypted_site, encrypted_username)
+
+        if encrypted_password is None:
+            print("No password found for this username and site.")
             return
+
+        password = decrypt(encrypted_password)
 
         print("Password:", password)
         copy_to_clipboard(str(password))
@@ -65,6 +77,7 @@ class TerminalInterface:
             elif choice == '3':
                 self.removePass()
             elif choice == 'q':
+                clear()
                 print("Good bye.")
                 break
             else:

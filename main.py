@@ -1,10 +1,9 @@
-from interface import TerminalInterface
-from confidentials import ConfidentialData
-
+from interface import TerminalInterface, clear
+from login import Login
 
 if __name__ == "__main__":
-    terminal = TerminalInterface()
-    terminal.run()
-    u = "test"
-    p = "pass"
-    first = ConfidentialData(u,p)
+    while not Login.authenticate():
+        clear()
+        print("Wrong password.")
+    TerminalInterface().run()
+
