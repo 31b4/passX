@@ -4,6 +4,3 @@ Interacting with the Interface: Follow the prompts to add, retrieve, delete pass
 
 ## TODO
 
-no login
-key is asked when logging in
-

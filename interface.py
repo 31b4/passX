@@ -23,25 +23,25 @@ class TerminalInterface:
         print("q:\tQuit")
         print("———————————————————————————————\n")
 
-    def addPass(self):
+    def addPass(self, KEY):
         site = input("Enter site: ")
         username = input("Enter username: ")
         password = input("Enter password: ")
 
-        encrypted_site = encrypt(site)
-        encrypted_username = encrypt(username)
-        encrypted_password = encrypt(password)
+        encrypted_site = encrypt(site, KEY)
+        encrypted_username = encrypt(username, KEY)
+        encrypted_password = encrypt(password, KEY)
 
         DatabaseManager('passwords.db').insert_password(encrypted_site, encrypted_username, encrypted_password)
         clear()
 
-    def getPass(self):
+    def getPass(self, KEY):
         clear()
         site = input("Enter site: ")
         username = input("Enter username: ")
 
-        encrypted_site = encrypt(site)
-        encrypted_username = encrypt(username)
+        encrypted_site = encrypt(site, KEY)
+        encrypted_username = encrypt(username, KEY)
 
         encrypted_password = DatabaseManager('passwords.db').get_password(encrypted_site, encrypted_username)
 
@@ -49,20 +49,20 @@ class TerminalInterface:
             print("No password found for this username and site.")
             return
 
-        password = decrypt(encrypted_password)
+        password = decrypt(encrypted_password, KEY)
 
         print("Password:", password)
         copy_to_clipboard(str(password))
         print("Password copied to clipboard.")
 
-    def removePass(self):
+    def removePass(self, KEY):
         clear()
         username = input("Enter username: ")
         site = input("Enter site: ")
         DatabaseManager('passwords.db').delete_account(site, username)
 
 
-    def run(self):
+    def run(self, KEY):
         DatabaseManager('passwords.db').create_table()
         clear()
 
@@ -71,11 +71,11 @@ class TerminalInterface:
             choice = input("What you want: ")
 
             if choice == '1':
-                self.addPass()
+                self.addPass(KEY)
             elif choice == '2':
-                self.getPass()
+                self.getPass(KEY)
             elif choice == '3':
-                self.removePass()
+                self.removePass(KEY)
             elif choice == 'q':
                 clear()
                 print("Good bye.")

@@ -1,7 +1,6 @@
 import numpy as np
-from login import KEY
 
-def encrypt(raw):
+def encrypt(raw, KEY):
     password_bytes = np.frombuffer(raw.encode(), dtype=np.uint8)
     key_bytes = np.frombuffer(KEY.encode(), dtype=np.uint8)
 
@@ -13,7 +12,7 @@ def encrypt(raw):
 
     return encrypted_password
 
-def decrypt(encrypted):
+def decrypt(encrypted, KEY):
     encrypted_bytes = np.frombuffer(encrypted, dtype=np.uint8)
     key_bytes = np.frombuffer(KEY.encode(), dtype=np.uint8)
 
