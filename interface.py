@@ -2,6 +2,7 @@ from DatabaseManager import DatabaseManager
 import os
 import pyperclip
 from cryption import encrypt, decrypt
+from login import KEY
 
 def copy_to_clipboard(text):
     pyperclip.copy(text)
@@ -15,6 +16,7 @@ class TerminalInterface:
         pass
 
     def display_options(self):
+        print(KEY)
         print("———————————————————————————————")
         print("—————————————PassX—————————————")
         print("1:\tAdd new password")
@@ -62,7 +64,7 @@ class TerminalInterface:
         DatabaseManager('passwords.db').delete_account(site, username)
 
 
-    def run(self):
+    def run(self, KEY):
         DatabaseManager('passwords.db').create_table()
         clear()
 

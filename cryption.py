@@ -1,5 +1,4 @@
 import numpy as np
-from login import KEY
 
 def encrypt(raw):
     password_bytes = np.frombuffer(raw.encode(), dtype=np.uint8)
