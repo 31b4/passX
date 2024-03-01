@@ -57,9 +57,13 @@ class TerminalInterface:
 
     def removePass(self, KEY):
         clear()
-        username = input("Enter username: ")
         site = input("Enter site: ")
-        DatabaseManager('passwords.db').delete_account(site, username)
+        username = input("Enter username: ")
+
+        encrypted_site = encrypt(site, KEY)
+        encrypted_username = encrypt(username, KEY)
+
+        DatabaseManager('passwords.db').delete_account(encrypted_site, encrypted_username)
 
 
     def run(self, KEY):
