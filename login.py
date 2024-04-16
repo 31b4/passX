@@ -1,6 +1,6 @@
 import bcrypt
 
-user1_hash = b'$2b$12$T.pZ35zrM5jwFd4B6SoNu.J.jpOpSlT/AQxLns.7zg8sXlMc6E1uK' # "bence"
+user1_hash = b'$2b$12$T.pZ35zrM5jwFd4B6SoNu.MJcd1tQchLRuwQtEFgS/9dRudIQNOfu' # "bence"
 user2_hash = b'$2b$12$T.pZ35zrM5jwFd4B6SoNu.3imfOuL0L5cWhIQKfkPMBsr55/DI1ci' # "timea"
 stored_salt = b'$2b$12$T.pZ35zrM5jwFd4B6SoNu.' # const
 
