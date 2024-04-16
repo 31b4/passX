@@ -20,6 +20,7 @@ class TerminalInterface:
         print("1:\tAdd new password")
         print("2:\tGet password")
         print("3:\tRemove Password")
+        print("4:\tList all")
         print("q:\tQuit")
         print("———————————————————————————————\n")
 
@@ -44,9 +45,12 @@ class TerminalInterface:
         encrypted_username = encrypt(username, KEY)
 
         encrypted_password = DatabaseManager('passwords.db').get_password(encrypted_site, encrypted_username)
+        print("———————————————————————————————")
 
         if encrypted_password is None:
             print("No password found for this username and site.")
+            print("———————————————————————————————\n")
+
             return
 
         password = decrypt(encrypted_password, KEY)
@@ -54,6 +58,8 @@ class TerminalInterface:
         print("Password:", password)
         copy_to_clipboard(str(password))
         print("Password copied to clipboard.")
+        print("———————————————————————————————\n")
+
 
     def removePass(self, KEY):
         clear()
@@ -64,7 +70,17 @@ class TerminalInterface:
         encrypted_username = encrypt(username, KEY)
 
         DatabaseManager('passwords.db').delete_account(encrypted_site, encrypted_username)
-
+    def listAll(self, KEY):
+        clear()
+        result = DatabaseManager('passwords.db').list_all()
+        if result is None:
+            print("No passwords found.")
+            return
+        print("{:<20}{:<20}{:<20}".format("Site", "Username", "Password"))
+        print("———————————————————————————————————————————————————————")
+        for site, username, password in result:
+            print("{:<20}{:<20}{:<20}".format(decrypt(site, KEY), decrypt(username, KEY), decrypt(password, KEY)))
+        print("———————————————————————————————————————————————————————")
 
     def run(self, KEY):
         DatabaseManager('passwords.db').create_table()
@@ -80,6 +96,8 @@ class TerminalInterface:
                 self.getPass(KEY)
             elif choice == '3':
                 self.removePass(KEY)
+            elif choice == '4':
+                self.listAll(KEY)
             elif choice == 'q':
                 clear()
                 print("Good bye.")
