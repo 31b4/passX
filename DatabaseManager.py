@@ -54,6 +54,14 @@ class DatabaseManager():
         self.execute_query(query, (site, username, password))
         self.commit()
 
+    def list_all(self):
+        query = "SELECT * FROM passes"
+        result = self.execute_query(query, ())
+        if result:
+            return result
+        else:
+            return None
+
     def delete_account(self, site, username):
         result = self.get_password(site, username)
 
